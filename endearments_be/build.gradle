@@ -1,0 +1,228 @@
+//import org.codehaus.groovy.runtime.GStringImpl
+//
+//buildscript {
+//    repositories {
+//        mavenCentral()
+//    }
+//    dependencies {
+//        classpath 'org.postgresql:postgresql:42.7.2' // required for Flyway CLI tasks
+//        classpath 'org.flywaydb:flyway-database-postgresql:10.15.0'
+//    }
+//}
+//
+//plugins {
+//    id 'java'
+//    id 'org.springframework.boot' version '3.5.6'
+//    id 'io.spring.dependency-management' version '1.1.7'
+//    id 'org.flywaydb.flyway' version '10.15.0'
+//}
+//
+//group = 'mt'
+//version = '0.0.1-SNAPSHOT'
+//description = 'endearments_be'
+//
+//java {
+//    toolchain {
+//        languageVersion = JavaLanguageVersion.of(17)
+//    }
+//}
+//
+//configurations {
+//    compileOnly {
+//        extendsFrom annotationProcessor
+//    }
+//}
+//
+//repositories {
+//    mavenCentral()
+//}
+//
+//ext {
+//    // Dependency versions
+//    postgresqlVersion = '42.7.2'
+//    mssqlVersion = '12.4.2.jre11'
+//    modelMapperVersion = '3.2.0'
+//    cloudinaryVersion = '1.39.0'
+//    jjwtVersion = '0.11.5'
+//    mapstructVersion = '1.5.5.Final'
+//    lombokVersion = '1.18.32'
+//    lombokMapstructBindingVersion = '0.2.0'
+//
+//    // Database configuration
+//    dbUser = System.getProperty('DB_USERNAME') ?: System.getenv('DB_USERNAME') ?: 'sa'
+//    dbPassword = System.getProperty('DB_PASSWORD') ?: System.getenv('DB_PASSWORD') ?: 'M!r@boT3ch'
+//    dbHost = System.getProperty('DB_HOST') ?: System.getenv('DB_HOST') ?: 'localhost'
+//    dbPort = System.getProperty('DB_PORT') ?: System.getenv('DB_PORT') ?: '5432'
+//    dbUrl = "jdbc:postgresql://${dbHost}:${dbPort}/Endearments" as GStringImpl
+//}
+//
+//dependencies {
+//    // Spring Boot starters
+//    implementation 'org.springframework.boot:spring-boot-starter-batch'
+//    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+//    implementation 'org.springframework.boot:spring-boot-starter-web'
+//    implementation 'org.springframework.boot:spring-boot-starter-web-services'
+//    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+//    implementation 'org.springframework.boot:spring-boot-starter-validation'
+//    implementation 'org.springframework.boot:spring-boot-starter-security'
+//    implementation 'org.springframework.boot:spring-boot-starter-mail'
+//
+//    // Database
+//    implementation 'org.flywaydb:flyway-core'
+//    runtimeOnly "org.postgresql:postgresql:${postgresqlVersion}"
+//    implementation "com.microsoft.sqlserver:mssql-jdbc:${mssqlVersion}"
+//
+//    // Utilities
+//    implementation "org.modelmapper:modelmapper:${modelMapperVersion}"
+//    implementation "com.cloudinary:cloudinary-http44:${cloudinaryVersion}"
+//
+//    // Security - JWT
+//    implementation "io.jsonwebtoken:jjwt-api:${jjwtVersion}"
+//    runtimeOnly "io.jsonwebtoken:jjwt-impl:${jjwtVersion}"
+//    runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jjwtVersion}"
+//
+//    // Code generation
+//    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+//    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+//    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+//    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+//    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${lombokMapstructBindingVersion}"
+//
+//    // Testing
+//    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//    testImplementation 'org.springframework.batch:spring-batch-test'
+//    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+//}
+//
+//tasks.named('test') {
+//    useJUnitPlatform()
+//}
+//
+//flyway {
+//    url = dbUrl
+//    user = dbUser
+//    password = dbPassword
+//    locations = ['filesystem:src/main/resources/db/migration']
+//    schemas = ['dbo']
+//}
+
+import org.codehaus.groovy.runtime.GStringImpl
+
+//buildscript {
+//    repositories {
+//        mavenCentral()
+//    }
+//    dependencies {
+//        classpath 'org.postgresql:postgresql:42.7.2' // required for Flyway CLI tasks
+//        classpath 'org.flywaydb:flyway-database-postgresql:11.7.2'
+//    }
+//}
+
+import org.codehaus.groovy.runtime.GStringImpl
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.postgresql:postgresql:42.7.2' // required for Flyway CLI tasks
+        classpath 'org.flywaydb:flyway-database-postgresql:11.7.2'
+    }
+}
+
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.5.6'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.flywaydb.flyway' version '11.7.2'
+}
+
+group = 'mt'
+version = '0.0.1-SNAPSHOT'
+description = 'endearments_be'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    // Dependency versions
+    postgresqlVersion = '42.7.2'
+    mssqlVersion = '12.4.2.jre11'
+    modelMapperVersion = '3.2.0'
+    cloudinaryVersion = '1.39.0'
+    jjwtVersion = '0.11.5'
+    mapstructVersion = '1.5.5.Final'
+    lombokVersion = '1.18.32'
+    lombokMapstructBindingVersion = '0.2.0'
+
+    // Database configuration
+    dbUser = System.getProperty('DB_USERNAME') ?: System.getenv('DB_USERNAME') ?: 'sa'
+    dbPassword = System.getProperty('DB_PASSWORD') ?: System.getenv('DB_PASSWORD') ?: 'M!r@boT3ch'
+    dbHost = System.getProperty('DB_HOST') ?: System.getenv('DB_HOST') ?: 'localhost'
+    dbPort = System.getProperty('DB_PORT') ?: System.getenv('DB_PORT') ?: '5432'
+    dbUrl = "jdbc:postgresql://${dbHost}:${dbPort}/Endearments" as GStringImpl
+}
+
+dependencies {
+    // Spring Boot starters
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-web-services'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    // Database
+    implementation 'org.flywaydb:flyway-core'
+    runtimeOnly "org.postgresql:postgresql"
+    implementation 'org.flywaydb:flyway-database-postgresql'
+    implementation "com.microsoft.sqlserver:mssql-jdbc:${mssqlVersion}"
+
+    // Utilities
+    implementation "org.modelmapper:modelmapper:${modelMapperVersion}"
+    implementation "com.cloudinary:cloudinary-http44:${cloudinaryVersion}"
+
+    // Security - JWT
+    implementation "io.jsonwebtoken:jjwt-api:${jjwtVersion}"
+    runtimeOnly "io.jsonwebtoken:jjwt-impl:${jjwtVersion}"
+    runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jjwtVersion}"
+
+    // Code generation
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${lombokMapstructBindingVersion}"
+
+    // Testing
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.batch:spring-batch-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+flyway {
+    url = dbUrl
+    user = dbUser
+    password = dbPassword
+    locations = ['filesystem:src/main/resources/db/migration']
+    schemas = ['dbo']
+}
