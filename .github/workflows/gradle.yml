@@ -1,0 +1,68 @@
+name: Gradle CI for Develop Branch
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+
+jobs:
+  build-test:
+    name: Build & Test Gradle App
+    runs-on: ubuntu-latest
+
+    steps:
+      # ---- Checkout source ----
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # ---- Setup JDK ----
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+          cache: "gradle"
+
+      # ---- Grant execute permission to Gradlew ----
+      - name: Give gradlew permission
+        run: chmod +x gradlew
+
+      # ---- Lint / Format (Spotless hoặc Checkstyle) ----
+      - name: Lint / Format Check
+        run: ./gradlew checkstyleMain checkstyleTest || true
+        # Nếu bạn dùng Spotless thì thay bằng:
+        # run: ./gradlew spotlessCheck
+
+      # ---- Compile ----
+      - name: Compile Code
+        run: ./gradlew compileJava --no-daemon
+
+      # ---- Run Tests ----
+      - name: Run Unit Tests
+        run: ./gradlew test --no-daemon
+
+      # ---- Build (jar/war) ----
+      - name: Build Package
+        run: ./gradlew build --no-daemon
+
+      # ---- OPTIONAL: Runtime Test (Smoke Test) ----
+      - name: Run Application Smoke Test
+        run: |
+          nohup ./gradlew bootRun &
+          sleep 15
+          echo "🔥 Checking if app started on port 8080..."
+          if curl -s http://localhost:8080 > /dev/null; then
+            echo "Application is running successfully!"
+          else
+            echo "❌ Application failed to run!"
+            exit 1
+          fi
+        continue-on-error: false
+
+      # ---- Upload artifact ----
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact
+          path: build/libs/*.jar
