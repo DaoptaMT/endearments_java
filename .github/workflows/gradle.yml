@@ -51,11 +51,11 @@ jobs:
         run: |
           nohup ./gradlew bootRun &
           sleep 15
-          echo "🔥 Checking if app started on port 8080..."
+          echo "Checking if app started on port 8080..."
           if curl -s http://localhost:8080 > /dev/null; then
             echo "Application is running successfully!"
           else
-            echo "❌ Application failed to run!"
+            echo "Application failed to run!"
             exit 1
           fi
         continue-on-error: false
